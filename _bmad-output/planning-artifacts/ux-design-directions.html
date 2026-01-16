@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PickSizer - Design Directions Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #0E1116;
+            --bg-surface: #151A21;
+            --bg-elevated: #1C222B;
+            --border-subtle: #2A313C;
+            --text-primary: #E6EAF0;
+            --text-secondary: #9AA4B2;
+            --confidence-green: #2ED573;
+            --caution-amber: #F7B731;
+            --risk-red: #EB3B5A;
+            --info-blue: #4B7BEC;
+            --accent-lime: #A3E635;
+            --accent-orange: #FB923C;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .direction-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            margin: 16px;
+            padding: 24px;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+        
+        .direction-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-lime) 0%, var(--accent-orange) 100%);
+            opacity: 0.3;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .direction-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(163, 230, 53, 0.1);
+        }
+        
+        .direction-card:hover::before {
+            opacity: 0.6;
+        }
+        
+        .confidence-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 8px;
+        }
+        
+        .confidence-green { background: var(--confidence-green); }
+        .confidence-amber { background: var(--caution-amber); }
+        .confidence-red { background: var(--risk-red); }
+        .confidence-blue { background: var(--info-blue); }
+        .accent-lime { background: var(--accent-lime); }
+        .accent-orange { background: var(--accent-orange); }
+        
+        .mockup-window {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+        
+        .window-header {
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 8px 12px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .window-content {
+            padding: 16px;
+            min-height: 200px;
+        }
+        
+        .comparison-tools {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .nav-button {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            position: relative;
+        }
+        
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-lime) 0%, var(--accent-orange) 100%);
+            transition: width 0.15s ease;
+        }
+        
+        .nav-button:hover {
+            background: var(--bg-elevated);
+        }
+        
+        .nav-button:hover::before {
+            width: 80%;
+        }
+        
+        .nav-button.active {
+            background: var(--info-blue);
+            color: white;
+        }
+        
+        .nav-button.active::before {
+            width: 100%;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <div class="bg-gray-800 border-b border-gray-700 px-6 py-4">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <h1 class="text-xl font-semibold">PickSizer Design Directions</h1>
+                <div class="flex gap-2">
+                    <button class="nav-button active" onclick="showDirection(1)">Silent Cockpit</button>
+                    <button class="nav-button" onclick="showDirection(2)">Confidence Dashboard</button>
+                    <button class="nav-button" onclick="showDirection(3)">Batch Command</button>
+                    <button class="nav-button" onclick="showDirection(4)">Minimal Authority</button>
+                    <button class="nav-button" onclick="showDirection(5)">Progressive Reveal</button>
+                    <button class="nav-button" onclick="showDirection(6)">Dark Mode First</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="max-w-7xl mx-auto px-6 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Direction 1: Silent Cockpit -->
+                <div id="direction-1" class="direction-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold">Direction 1: Silent Cockpit</h2>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-400">Dense • Professional</span>
+                            <div class="confidence-indicator confidence-green"></div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Aviation-inspired interface with maximum information density. Optimized for professional users who value efficiency and precision above all.</p>
+                    
+                    <div class="mockup-window">
+                        <div class="window-header">PickSizer - Batch Processing</div>
+                        <div class="window-content">
+                            <!-- Dense batch interface -->
+                            <div class="grid grid-cols-4 gap-2 mb-4">
+                                <div class="bg-gray-700 rounded p-2">
+                                    <div class="w-full h-20 bg-gray-600 rounded mb-1"></div>
+                                    <div class="text-xs text-gray-400">IMG_001.jpg</div>
+                                    <div class="flex items-center gap-1 mt-1">
+                                        <div class="confidence-indicator confidence-green"></div>
+                                        <span class="text-xs text-green-400">Safe</span>
+                                        <div class="confidence-indicator accent-lime w-2 h-2 ml-2"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-700 rounded p-2">
+                                    <div class="w-full h-20 bg-gray-600 rounded mb-1"></div>
+                                    <div class="text-xs text-gray-400">IMG_002.jpg</div>
+                                    <div class="flex items-center gap-1 mt-1">
+                                        <div class="confidence-indicator confidence-amber"></div>
+                                        <span class="text-xs text-amber-400">Review</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-700 rounded p-2">
+                                    <div class="w-full h-20 bg-gray-600 rounded mb-1"></div>
+                                    <div class="text-xs text-gray-400">IMG_003.jpg</div>
+                                    <div class="flex items-center gap-1 mt-1">
+                                        <div class="confidence-indicator confidence-green"></div>
+                                        <span class="text-xs text-green-400">Safe</span>
+                                        <div class="confidence-indicator accent-lime w-2 h-2 ml-2"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-700 rounded p-2">
+                                    <div class="w-full h-20 bg-gray-600 rounded mb-1"></div>
+                                    <div class="text-xs text-gray-400">IMG_004.jpg</div>
+                                    <div class="flex items-center gap-1 mt-1">
+                                        <div class="confidence-indicator confidence-red"></div>
+                                        <span class="text-xs text-red-400">Conflict</span>
+                                        <div class="confidence-indicator accent-orange w-2 h-2 ml-2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex gap-2">
+                                <button class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm font-medium">Approve All</button>
+                                <button class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded text-sm font-medium">Export</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Direction 2: Confidence Dashboard -->
+                <div id="direction-2" class="direction-card hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold">Direction 2: Confidence Dashboard</h2>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-400">Clean • Status-focused</span>
+                            <div class="confidence-indicator confidence-blue"></div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Spacious, status-driven interface that puts confidence visualization front and center. Focus on clarity and trust building.</p>
+                    
+                    <div class="mockup-window">
+                        <div class="window-header">PickSizer - Confidence Overview</div>
+                        <div class="window-content">
+                            <!-- Status dashboard -->
+                            <div class="grid grid-cols-3 gap-4 mb-4">
+                                <div class="bg-gray-700 rounded p-4 text-center">
+                                    <div class="text-2xl font-bold text-green-400">98%</div>
+                                    <div class="text-sm text-gray-400">Confidence Score</div>
+                                    <div class="confidence-indicator confidence-green w-4 h-4 mx-auto mt-2"></div>
+                                </div>
+                                <div class="bg-gray-700 rounded p-4 text-center">
+                                    <div class="text-2xl font-bold text-amber-400">2</div>
+                                    <div class="text-sm text-gray-400">Need Review</div>
+                                    <div class="confidence-indicator confidence-amber w-4 h-4 mx-auto mt-2"></div>
+                                </div>
+                                <div class="bg-gray-700 rounded p-4 text-center">
+                                    <div class="text-2xl font-bold text-blue-400">50</div>
+                                    <div class="text-sm text-gray-400">Processed</div>
+                                    <div class="confidence-indicator confidence-blue w-4 h-4 mx-auto mt-2"></div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-600 rounded p-4">
+                                <div class="w-full h-32 bg-gray-500 rounded mb-2"></div>
+                                <div class="text-sm text-gray-300 mb-2">Primary Image with Confidence Overlay</div>
+                                <div class="grid grid-cols-4 gap-2">
+                                    <button class="bg-gray-700 hover:bg-gray-600 p-2 rounded text-xs">Prioritize Product</button>
+                                    <button class="bg-gray-700 hover:bg-gray-600 p-2 rounded text-xs">Prioritize Subject</button>
+                                    <button class="bg-gray-700 hover:bg-gray-600 p-2 rounded text-xs">Prioritize Logo</button>
+                                    <button class="bg-gray-700 hover:bg-gray-600 p-2 rounded text-xs">Custom Crop</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Direction 3: Batch Command Center -->
+                <div id="direction-3" class="direction-card hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold">Direction 3: Batch Command Center</h2>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-400">Efficient • Keyboard-first</span>
+                            <div class="confidence-indicator confidence-green"></div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Power-user optimized interface with keyboard shortcuts and command palette focus. Maximum efficiency for experienced users.</p>
+                    
+                    <div class="mockup-window">
+                        <div class="window-header">PickSizer - Command Palette</div>
+                        <div class="window-content">
+                            <!-- Command interface -->
+                            <div class="bg-gray-700 rounded p-3 mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-gray-400">></span>
+                                    <input type="text" placeholder="Type command..." class="bg-gray-600 text-gray-100 px-3 py-2 rounded flex-1 text-sm">
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="text-xs text-gray-400 px-3 py-1 hover:bg-gray-600 rounded">export all --format=shopify --confidence>95</div>
+                                    <div class="text-xs text-gray-400 px-3 py-1 hover:bg-gray-600 rounded">approve batch --safe-zones=on</div>
+                                    <div class="text-xs text-gray-400 px-3 py-1 hover:bg-gray-600 rounded">set brand-dna --client=acme</div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-600 rounded p-4">
+                                <div class="text-sm text-gray-300 mb-2">Keyboard Shortcuts Reference</div>
+                                <div class="grid grid-cols-2 gap-2 text-xs">
+                                    <div class="bg-gray-700 p-2 rounded">
+                                        <kbd class="bg-gray-600 px-2 py-1 rounded">Space</kbd> + <kbd class="bg-gray-600 px-2 py-1 rounded">A</kbd> Approve All
+                                    </div>
+                                    <div class="bg-gray-700 p-2 rounded">
+                                        <kbd class="bg-gray-600 px-2 py-1 rounded">Space</kbd> + <kbd class="bg-gray-600 px-2 py-1 rounded">E</kbd> Export Batch
+                                    </div>
+                                    <div class="bg-gray-700 p-2 rounded">
+                                        <kbd class="bg-gray-600 px-2 py-1 rounded">Tab</kbd> Next Image
+                                    </div>
+                                    <div class="bg-gray-700 p-2 rounded">
+                                        <kbd class="bg-gray-600 px-2 py-1 rounded">1-4</kbd> Set Confidence Level
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Direction 4: Minimal Authority -->
+                <div id="direction-4" class="direction-card hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold">Direction 4: Minimal Authority</h2>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-400">Subtle • Restrained</span>
+                            <div class="confidence-indicator confidence-green"></div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Trust-through-simplicity approach with minimal UI elements. Focus on content and confidence rather than interface decoration.</p>
+                    
+                    <div class="mockup-window">
+                        <div class="window-header">PickSizer - Minimal Interface</div>
+                        <div class="window-content">
+                            <!-- Minimal interface -->
+                            <div class="bg-gray-700 rounded p-8">
+                                <div class="w-full h-48 bg-gray-600 rounded mb-4 flex items-center justify-center">
+                                    <div class="text-center">
+                                        <div class="w-32 h-32 bg-gray-500 rounded mb-2"></div>
+                                        <div class="confidence-indicator confidence-green w-6 h-6 mx-auto mb-2"></div>
+                                        <div class="text-sm text-green-400">High Confidence</div>
+                                        <div class="text-xs text-gray-400 mt-2">Safe zones detected</div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center gap-4">
+                                    <button class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded text-sm">✓ Approve</button>
+                                    <button class="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded text-sm">✏️ Adjust</button>
+                                    <button class="bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded text-sm">↻ Export</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Direction 5: Progressive Reveal -->
+                <div id="direction-5" class="direction-card hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold">Direction 5: Progressive Reveal</h2>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-400">Layered • Gradual</span>
+                            <div class="confidence-indicator confidence-amber"></div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Layered complexity with gradual disclosure. Advanced features reveal as user confidence grows.</p>
+                    
+                    <div class="mockup-window">
+                        <div class="window-header">PickSizer - Progressive Interface</div>
+                        <div class="window-content">
+                            <!-- Progressive disclosure -->
+                            <div class="space-y-4">
+                                <div class="bg-gray-700 rounded p-4">
+                                    <div class="text-sm font-medium mb-2">Basic Controls</div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <button class="bg-gray-600 hover:bg-gray-500 px-3 py-2 rounded text-sm">Upload</button>
+                                        <button class="bg-gray-600 hover:bg-gray-500 px-3 py-2 rounded text-sm">Preview</button>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-700 rounded p-4">
+                                    <div class="text-sm font-medium mb-2">Advanced Controls (Unlocked)</div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <button class="bg-green-600 hover:bg-green-700 px-3 py-2 rounded text-sm">Brand DNA</button>
+                                        <button class="bg-green-600 hover:bg-green-700 px-3 py-2 rounded text-sm">Safety Zones</button>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-700 rounded p-4 opacity-50">
+                                    <div class="text-sm font-medium mb-2">Expert Controls (Locked)</div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <button class="bg-gray-600 px-3 py-2 rounded text-sm opacity-50" disabled>API Access</button>
+                                        <button class="bg-gray-600 px-3 py-2 rounded text-sm opacity-50" disabled>Enterprise Tools</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Direction 6: Dark Mode First -->
+                <div id="direction-6" class="direction-card hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold">Direction 6: Dark Mode First</h2>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-400">Professional • Focus</span>
+                            <div class="confidence-indicator confidence-green"></div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Dark-first design that reduces eye fatigue and supports extended professional sessions. Light mode available for review scenarios.</p>
+                    
+                    <div class="mockup-window">
+                        <div class="window-header">PickSizer - Professional Dark Mode</div>
+                        <div class="window-content">
+                            <!-- Dark mode interface -->
+                            <div class="bg-gray-800 rounded p-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="text-sm text-gray-300">Dark Mode Active</div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-4 bg-gray-600 rounded"></div>
+                                        <div class="w-8 h-4 bg-gray-700 rounded"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-700 rounded p-4 mt-4">
+                                <div class="w-full h-40 bg-gray-600 rounded mb-2"></div>
+                                <div class="text-sm text-gray-300 mb-2">High contrast image processing</div>
+                                <div class="flex items-center gap-2">
+                                    <div class="confidence-indicator confidence-green"></div>
+                                    <span class="text-sm text-green-400">Ready for export</span>
+                                    <div class="confidence-indicator accent-lime w-2 h-2 ml-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Comparison Tools -->
+        <div class="comparison-tools">
+            <div class="text-sm font-medium mb-2">Compare Directions</div>
+            <div class="flex gap-2">
+                <button class="bg-gray-600 hover:bg-gray-700 px-3 py-2 rounded text-xs" onclick="compareDirections(1,2)">1 vs 2</button>
+                <button class="bg-gray-600 hover:bg-gray-700 px-3 py-2 rounded text-xs" onclick="compareDirections(1,3)">1 vs 3</button>
+                <button class="bg-gray-600 hover:bg-gray-700 px-3 py-2 rounded text-xs" onclick="compareDirections(4,5)">4 vs 5</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showDirection(directionNum) {
+            // Hide all directions
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`direction-${i}`).classList.add('hidden');
+            }
+            
+            // Show selected direction
+            document.getElementById(`direction-${directionNum}`).classList.remove('hidden');
+            
+            // Update nav buttons
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.nav-button')[directionNum - 1].classList.add('active');
+        }
+        
+        function compareDirections(dir1, dir2) {
+            // Hide all directions
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`direction-${i}`).classList.add('hidden');
+            }
+            
+            // Show two directions side by side for comparison
+            document.getElementById(`direction-${dir1}`).classList.remove('hidden');
+            document.getElementById(`direction-${dir2}`).classList.remove('hidden');
+            
+            // Update grid to show comparison
+            const grid = document.querySelector('.grid');
+            grid.classList.remove('lg:grid-cols-2');
+            grid.classList.add('lg:grid-cols-1');
+        }
+        
+        // Show first direction by default
+        showDirection(1);
+    </script>
+</body>
+</html>
