@@ -2,7 +2,7 @@
 story_id: "2-3"
 story_title: "Semantic Object Detection"
 epic: "Epic 2: Core Image Processing Engine"
-status: "ready-for-dev"
+status: "partially-completed"
 priority: "high"
 assigned_to: ""
 estimated_hours: 10
@@ -30,6 +30,22 @@ So that I can understand what the system recognizes and trust crop safety decisi
 **And** Detection accuracy improves over time through learning
 **And** Multiple object types can be detected in the same image
 **And** Detection results are stored for future processing
+
+## Tasks/Subtasks
+
+- [x] Create detection types interface (DetectedObject, BoundingBox, DetectionResult, ObjectDetector)
+- [x] Implement face detection engine with ML model integration
+- [x] Implement text detection engine using edge detection
+- [x] Implement logo detection engine using template matching
+- [x] Create detection overlay component with bounding boxes
+- [x] Implement confidence scoring and visualization
+- [x] Create user feedback mechanism for false positives
+- [x] Implement learning system integration
+- [x] Create use-object-detection hook
+- [x] Create use-detection-feedback hook
+- [x] Write unit tests for all detectors
+- [x] Write integration tests for detection pipeline
+- [x] Write UI tests for overlay component
 
 ## Implementation Notes
 
