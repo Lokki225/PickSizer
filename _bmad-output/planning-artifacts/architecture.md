@@ -31,7 +31,7 @@ _This document builds collaboratively through step-by-step discovery. Sections a
 **Non-Functional Requirements:**
 13 non-functional requirements driving architectural decisions:
 
-- **Performance (NFR1-NFR4)**: <300ms UI feedback, <2s Wasm processing, predictive skeleton rendering, <50ms jitter rate
+- **Performance (NFR1-NFR4)**: <300ms UI feedback, <2s Wasm processing (<400ms with JavaScript fallback), predictive skeleton rendering, <50ms jitter rate
 - **Security (NFR5-NFR8)**: Volatile memory storage, no cloud uploads for processing, AES-256 encryption, SOC2 compliance
 - **Accessibility (NFR9-NFR11)**: Aria-live announcements, keyboard navigation, color-blind accommodations
 - **Integration (NFR12-NFR13)**: Operational Transformation via WebSockets, <1.5s API response times
@@ -45,7 +45,7 @@ Medium-High complexity web application with advanced AI/ML capabilities
 
 ### Technical Constraints & Dependencies
 
-- **Performance Constraint**: <300ms Interactive Pulse requires WebAssembly optimization
+- **Performance Constraint**: <300ms Interactive Pulse requires WebAssembly optimization (<400ms acceptable with JavaScript fallback)
 - **Privacy Constraint**: Local-first processing eliminates cloud-based image processing
 - **Compliance Constraint**: SOC2 compliance required for enterprise adoption
 - **Browser Support**: Latest 2 versions of major browsers with progressive enhancement
@@ -54,7 +54,7 @@ Medium-High complexity web application with advanced AI/ML capabilities
 ### Cross-Cutting Concerns Identified
 
 - **Real-time State Synchronization**: WebSockets with OT/CRDTs for collaborative Brand DNA
-- **Performance Optimization**: Client-side Wasm processing with skeleton UI states
+- **Performance Optimization**: Client-side Wasm processing with JavaScript fallback and skeleton UI states
 - **Security & Privacy**: Zero-retention architecture with encrypted metadata sync
 - **Accessibility**: WCAG 2.1 Level AA compliance across all interactive elements
 - **AI Safety Systems**: Aviation-grade authority management and failure recovery
@@ -192,12 +192,14 @@ pnpm dev
 - **Integration**: Event-driven architecture with Supabase Realtime
 - **Impact**: Prevents impossible UI states like Autopilot during Safety Lock
 
-**WebAssembly Engine: Rust + Wasm-Pack**
+**WebAssembly Engine: Rust + Wasm-Pack with JavaScript Fallback**
 - **Version**: Latest stable
-- **Rationale**: Near-native performance with memory safety
-- **Features**: Image crate for processing, worker thread execution
-- **Integration**: Custom React hooks for lifecycle management
-- **Impact**: Achieves <300ms Interactive Pulse for 10MB images
+- **Rationale**: Near-native performance with memory safety and progressive enhancement
+- **Features**: Image crate for processing, worker thread execution, JavaScript fallback for compatibility
+- **Integration**: Custom React hooks with automatic fallback detection
+- **Performance**: <300ms Interactive Pulse with WebAssembly, <400ms with JavaScript fallback
+- **Fallback Strategy**: Enhanced JavaScript implementation ensures full functionality across all environments
+- **Impact**: Achieves performance targets while maintaining broad compatibility and reliability
 
 ### Infrastructure & Deployment
 
@@ -214,13 +216,13 @@ pnpm dev
 1. Initialize Next.js project with ts-nextjs-tailwind-starter
 2. Set up Supabase database and authentication
 3. Implement XState machines for authority management
-4. Integrate Rust WebAssembly for image processing
+4. Integrate Rust WebAssembly for image processing with JavaScript fallback
 5. Connect real-time collaboration features
 6. Deploy to Vercel with Supabase integration
 
 **Cross-Component Dependencies:**
 - XState depends on Supabase Realtime for state synchronization
-- WebAssembly engine feeds confidence data to XState machines
+- WebAssembly engine with JavaScript fallback feeds confidence data to XState machines
 - Supabase RLS enforces security boundaries defined in XState
 - IndexedDB cache mirrors Supabase for offline resilience
 

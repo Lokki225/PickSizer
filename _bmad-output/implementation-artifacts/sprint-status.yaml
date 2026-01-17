@@ -52,8 +52,8 @@ development_status:
   epic-2: in-progress
   2-1-image-upload-preview: done
   2-2-webassembly-image-processing: done
-  2-3-semantic-object-detection: review
-  2-4-image-classification: ready-for-dev
+  2-3-semantic-object-detection: done
+  2-4-image-classification: done
   2-5-basic-cropping-interface: ready-for-dev
   epic-2-retrospective: optional
 
